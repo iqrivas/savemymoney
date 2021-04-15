@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.ico" />
     <title>SaveMyMoney</title>
 </head>
+
 <body>
     <header>
         <img src="./assets/logo.svg" alt="Logo">
@@ -18,13 +20,74 @@
         <div class="menu">
             <img class="menu__icons" src="/assets/message_icon.svg" alt="Message Icon">
             <img class="menu__icons" src="/assets/notification_new.svg" alt="New Notification Icon">
-            <img class="menu__icons" src="/assets/avatar.svg" alt="Avatar Icon">
+            <img class="menu__avatar" src="/assets/avatar.svg" alt="Avatar Icon">
             <div class="userInfo">
                 <span class="userInfo__name">Andrew</span>
                 <span class="userInfo__role">Admin Account</span>
             </div>
         </div>
     </header>
+    <section class="grid">
+        <div id="title">
+            <h1>Monthly Summary</h1>
+            <p class="subtitle">Get a summary of your monthly online transactions here</p>
+        </div>
+        <div id="addTransaction">
+            <span class="section_title">Add a Transaction</span>
+            <div class="card grid_transaction">
+                <div id="name" class="inputblock">
+                    <label for="transaction_name">Note</label>
+                    <input type="text" name="Name" id="transaction_name">
+                </div>
+                <div id="category" class="inputblock">
+                    <label for="transaction_category">Category</label>
+                    <select name="category">
+                        <option value=""></option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Travels">Travels</option>
+                    </select>
+                </div>
+                <div id="date" class="inputblock">
+                    <label for="transaction_date">Date</label>
+                    <input type="date" name="Date" id="transaction_date">
+                </div>
+                <div id="amount" class="inputblock">
+                    <label for="transaction_amount">Amount</label>
+                    <input type="number" name="Amount" id="transaction_amount">
+                </div>
+                <div id="transaction_btn" class="addTransaction__btn">
+                    <button class="btn addTransaction__btn--expenditure">Expenditure</button>
+                    <button class="btn addTransaction__btn--income">Income</button>
+                </div>
+            </div>
+
+        </div>
+        <div id="totalIncome">
+            <span class="section_title">Total Income</span>
+            <div class="card totals">
+                <span class="total__title--income"> $ 1,500.50</span>
+            </div>
+        </div>
+        <div id="totalExpenditure">
+            <span class="section_title">Total Expenditure</span>
+            <div class="card totals">
+
+                <span class="total__title--expenditure"> $ 1,500.50</span>
+            </div>
+        </div>
+        <div id="transactions">
+            <div class="card">
+                <span class="section_title">Monthly Transaction History</span>
+            </div>
+        </div>
+        <div id="categories">
+            <div class="card">
+                <span class="section_title">Outcome Statistics</span>
+            </div>
+        </div>
+    </section>
 
 </body>
+
 </html>

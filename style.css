@@ -1,57 +1,278 @@
 :root {
-    --logo-blue: #0F4264;
-    --grey: #AEAEAE;
+  --logo-blue: #0f4264;
+  --grey: #aeaeae;
+  --light-grey: ##e5e5e5;
+  --red: #d02323;
+  --green: #26b14d;
+  --lighter-black: #404040;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    font-family: 'Roboto', sans-serif;
-    font-size: 62.5%;
-    min-width: 320px;  
+  font-family: "Roboto", sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
 }
 
 header {
-    display: flex;
-    align-items: center;
-    margin: 1rem;
-    padding: 2rem;
-
-    box-shadow: 0px 24px 32px 0px rgba(0,0,0,0.3);
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2rem;
+  padding: 0 5rem;
+  width: 100%;
+  box-shadow: 0px 24px 32px 0px rgba(0, 0, 0, 0.1);
 }
 
 .appName {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 2.1rem;
-    color: var(--logo-blue);
-    padding: 1rem;
-
+  font-family: "Quicksand", sans-serif;
+  font-size: 2.1rem;
+  color: var(--logo-blue);
+  padding: 1rem;
 }
 
 .menu {
-    display: flex;
-    margin-left: auto;
-    padding: 1rem;
+  display: flex;
+  margin-left: auto;
+  padding: 1rem;
 }
 
 .menu__icons {
-    margin: 1rem;
+  margin: 1rem;
+}
+
+.menu_avatar {
+  margin: 1rem;
+  border: 1px solid black;
 }
 
 .userInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 1.4rem;
-    font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--lighter-black);
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .userInfo__role {
-    color: var(--grey);
+  color: var(--grey);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  padding: 2rem;
+  width: 100%;
+  background-color: var(--light-grey);
+}
+
+.card {
+  border-radius: 28px;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  padding: 1.5rem;
+}
+
+h1 {
+  color: var(--lighter-black);
+  font-family: "Roboto", sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--grey);
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.section_title {
+  color: var(--lighter-black);
+  font-family: "Roboto", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.inputblock {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 0.5px;
+  text-align: center;
+}
+
+input, select {
+  display: inline;
+  background: rgba(196, 196, 196, 0.2);
+  border-radius: 9px;
+  border-style: none;
+  height: 3.5rem;
+  text-align: center;
+}
+
+.addTransaction__btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  padding: 0.5rem 1rem;
+  border-style: none;
+  border-radius: 8px;
+  width: 48%;
+}
+
+.addTransaction__btn--expenditure {
+  background-color: var(--red);
+  margin-top: 1rem;
+}
+
+.addTransaction__btn--income {
+  background-color: var(--green);
+  margin-top: 1rem;
+}
+
+.totals {
+  text-align: center;
+}
+
+.total__title--expenditure {
+  color: var(--red);
+  font-size: 4rem;
+}
+
+.total__title--income {
+  color: var(--green);
+  font-size: 4rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-areas:
+    "title title"
+    "addTrans total_inc"
+    "addTrans total_exp"
+    "transactions categories";
+  grid-auto-rows: auto;
+  grid-template-columns: 60% 1fr;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  min-width: 340px;
+  width: 90vw;
+  margin: 20px;
+}
+
+.grid_transaction {
+  display: grid;
+  grid-template-areas:
+    "amount category "
+    "date name"
+    "trans_btn trans_btn";
+  grid-auto-rows: auto;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  min-width: 340px;
+  padding: 20px;
+  
+}
+
+#title {
+  grid-area: title;
+}
+#categories {
+  grid-area: categories;
+}
+#totalIncome {
+  grid-area: total_inc;
+}
+#totalExpenditure {
+  grid-area: total_exp;
+}
+#addTransaction {
+  grid-area: addTrans;
+}
+#transactions {
+  grid-area: transactions;
+}
+
+#name {
+  grid-area: name;
+}
+#amount {
+  grid-area: amount;
+}
+#date {
+  grid-area: date;
+}
+#category {
+  grid-area: category;
+}
+
+#transaction_btn {
+  grid-area: trans_btn;
+}
+
+/* Stack the layout on small devices/viewports. */
+@media all and (max-width: 650px) {
+  .grid {
+    grid-template-areas:
+      "title"
+      "addTrans"
+      "total_inc"
+      "total_exp"
+      "transactions"
+      "categories";
+    grid-auto-rows: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .grid_transaction {
+    grid-template-areas:
+      "amount"
+      "category"
+      "date"
+      "name"
+      "trans_btn";
+    grid-auto-rows: auto;
+    grid-template-columns: 1fr;
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    min-width: 340px;
+    
+  }
+
+  .userInfo,
+  .menu__icons {
+    display: none;
+  }
+  header {
+    padding: 2rem;
+  }
+  .addTransaction__btn {
+    flex-direction: column;
+    align-items: center;
+  }
 }
