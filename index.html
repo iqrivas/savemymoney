@@ -34,14 +34,14 @@
         </div>
         <div id="addTransaction">
             <span class="section_title">Add a Transaction</span>
-            <div class="card grid_transaction">
+            <form class="card grid_transaction">
                 <div id="name" class="inputblock">
                     <label for="transaction_name">Note</label>
-                    <input type="text" name="Name" id="transaction_name">
+                    <input type="text" name="Name" id="transaction_name" required>
                 </div>
                 <div id="category" class="inputblock">
                     <label for="transaction_category">Category</label>
-                    <select name="category">
+                    <select name="category" required>
                         <option value=""></option>
                         <option value="Electronics">Electronics</option>
                         <option value="Shopping">Shopping</option>
@@ -50,17 +50,17 @@
                 </div>
                 <div id="date" class="inputblock">
                     <label for="transaction_date">Date</label>
-                    <input type="date" name="Date" id="transaction_date">
+                    <input type="date" name="Date" id="transaction_date" required>
                 </div>
                 <div id="amount" class="inputblock">
                     <label for="transaction_amount">Amount</label>
-                    <input type="number" name="Amount" id="transaction_amount">
+                    <input type="number" name="Amount" id="transaction_amount" required>
                 </div>
                 <div id="transaction_btn" class="addTransaction__btn">
                     <button class="btn addTransaction__btn--expenditure">Expenditure</button>
                     <button class="btn addTransaction__btn--income">Income</button>
                 </div>
-            </div>
+            </form>
 
         </div>
         <div id="totalIncome">
