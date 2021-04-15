@@ -79,15 +79,38 @@
         <div id="transactions">
             <div class="card">
                 <span class="section_title">Monthly Transaction History</span>
+                <div class="section_table">
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                        <tr>
+                            <td class="table_name">Transaction Name</td>
+                            <td>Transaction Category</td>
+                            <td>14 April 2021</td>
+                            <td class="table_amount">$.500</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
         <div id="categories">
-            <div class="card">
+            <div class="card ">
                 <span class="section_title">Outcome Statistics</span>
             </div>
         </div>
     </section>
-
+    <!-- Firebase -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+    <!-- Custom JS -->
+    <script src="./main.js"></script>
 </body>
 
 </html>

@@ -108,6 +108,30 @@ h1 {
   font-weight: 700;
 }
 
+.section_table table {
+  width: 95%;
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin: 20px auto 20px auto;
+  /* color: var(--grey); */
+  border-collapse: collapse;
+}
+
+.section_table table  tr{
+  height: 30px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.section_table table th {
+  font-weight: 700;
+  text-align: left;
+}
+
+.section_table table tr .table_name, .table_amount {
+  font-weight: 700;
+  color: var(--lighter-black);
+}
+
 .inputblock {
     display: flex;
     flex-direction: column;
