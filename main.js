@@ -15,15 +15,41 @@ firebase.initializeApp(firebaseConfig);
 // Firestone DB Connection
 const db = firebase.firestore();
 
+const expenditureBtn = document.querySelector(".addTransaction__btn--expenditure");
 const transactionsTable = document.querySelector(".section_table table");
 
 // Get all transactions
 const getTransactions = () => db.collection('transactions').get();
 
+// Save Transaction
+const saveTransaction = (amount, category, date, name, type) => {
+    db.collection('transactions').doc().set({
+        amount,
+        category,
+        date,
+        name,
+        type
+
+    });
+}
+
+const onGetTransactions = (callback) => db.collection("transactions").onSnapshot(callback);
+
 // Painting transactions in DOM
 window.addEventListener('DOMContentLoaded', async (e) =>{
 
-    const transactions = await getTransactions();
+  onGetTransactions((transactions) => {
+    
+    const tableHead = `
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Date</th>
+        <th>Amount</th>
+      </tr>`;
+
+    transactionsTable.innerHTML = tableHead;
+    
     transactions.forEach(doc => {
         console.log(doc.data());
         
@@ -36,11 +62,24 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
           <tr>
             <td class="table_name">${name}</td>
             <td class="table_category">${category}</td>
-            <td class="table_date">15 April 2021</td>
+            <td class="table_date">${date}</td>
             <td class="table_amount">$.${amount}</td>
           </tr>
         `
         transactionsTable.innerHTML += tableMarkup;
 
     });
+  });
+
 })
+
+expenditureBtn.addEventListener('click', async () => {
+
+  const transactionAmount = document.getElementById('transaction_amount');
+  const transactionName = document.getElementById('transaction_name');
+  const transactionCategory = document.getElementById('transaction_category');
+  const transactionDate = document.getElementById('transaction_date');
+  const transactionType = expenditureBtn.value;
+
+  await saveTransaction(transactionAmount.value, transactionCategory.value, transactionDate.value,transactionName.value,  transactionType, );
+});
