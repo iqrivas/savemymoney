@@ -132,7 +132,12 @@ expenditureBtn.addEventListener('click', async () => {
   const transactionCategory = document.getElementById('transaction_category').value;
   const transactionDate = firebase.firestore.Timestamp.fromDate(new Date(document.getElementById('transaction_date').value));
   const transactionType = expenditureBtn.value;
+
   await saveTransaction(transactionAmount, transactionCategory, transactionDate, transactionName, transactionType );
+  transactionAmount.value = '';
+  transactionName.value = '';
+  transactionCategory.value = '';
+  transactionDate.value = '';
 });
 
 incomeBtn.addEventListener('click', async () => {
@@ -141,5 +146,11 @@ incomeBtn.addEventListener('click', async () => {
   const transactionCategory = document.getElementById('transaction_category').value;
   const transactionDate = firebase.firestore.Timestamp.fromDate(new Date(document.getElementById('transaction_date').value));
   const transactionType = incomeBtn.value;
+
   await saveTransaction(transactionAmount, transactionCategory, transactionDate, transactionName, transactionType );
+  transactionAmount.value = '';
+  transactionName.value = '';
+  transactionCategory.value = '';
+  transactionDate.value = '';
+
 });
