@@ -124,11 +124,12 @@ h1 {
 .section_table table tr {
   height: 30px;
   border-bottom: 1px solid var(--grey);
+  text-align: center;
 }
 
 .section_table table th {
   font-weight: 700;
-  text-align: left;
+  text-align: center;
 }
 
 .section_table table tr .table_name,

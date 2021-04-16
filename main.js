@@ -16,7 +16,15 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 const expenditureBtn = document.querySelector(".addTransaction__btn--expenditure");
+const incomeBtn = document.querySelector(".addTransaction__btn--income");
 const transactionsTable = document.querySelector(".section_table table");
+const totalIncome = document.querySelector("#total_income");
+const totalExpenditure = document.querySelector("#total_expenditure");
+
+const dateInput = document.getElementById('transaction_date');
+dateInput.defaultValue = new Date().toLocaleString("en-CA", { year: 'numeric', month: 'numeric', day: 'numeric' });
+
+let options = { style: 'currency', currency: 'USD' };
 
 // Get all transactions
 const getTransactions = () => db.collection('transactions').get();
@@ -33,16 +41,19 @@ const saveTransaction = (amount, category, date, name, type) => {
     });
 }
 
-const onGetTransactions = (callback) => db.collection("transactions").onSnapshot(callback);
+const onGetTransactions = (callback) => db.collection("transactions").orderBy("date", "desc").onSnapshot(callback);
 
 // Painting transactions in DOM
 window.addEventListener('DOMContentLoaded', async (e) =>{
 
   onGetTransactions((transactions) => {
-    
+    let sumOfIncome = 0;
+    let sumOfExpenditure = 0;
+    let categories = new Set();
+
     const tableHead = `
       <tr>
-        <th>Name</th>
+        <th colspan="2">Name</th>
         <th>Category</th>
         <th>Date</th>
         <th>Amount</th>
@@ -51,35 +62,84 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
     transactionsTable.innerHTML = tableHead;
     
     transactions.forEach(doc => {
-        console.log(doc.data());
+        
         
         const name = doc.data().name;
         const category = doc.data().category;
         const date = doc.data().date;
+        const formatted_date = date.toDate().toLocaleString("en-CA", { year: 'numeric', month: 'numeric', day: 'numeric' });
         const amount = doc.data().amount;
+        const formatted_amount = new Intl.NumberFormat('en-US', options).format(doc.data().amount);
+        const type = doc.data().type;
+        let icon = "/assets/shopping_icon.svg";
+        switch (category){
+          case 'Transport':
+            icon =  "/assets/transport_icon.svg";
+            break;
+          case 'Travels':
+            icon =  "/assets/travels_icon.svg";
+            break;
+          case 'Electronics':
+            icon =  "/assets/electronics_icon.svg";
+            break;
+          case 'Utilities':
+            icon =  "/assets/home_icon.svg";
+            break;
+          case 'Salary':
+          case 'Bonus':
+            icon =  "/assets/money_icon.svg";
+            break;
+          default:
+            icon = "/assets/shopping_icon.svg";
+        };
 
         const tableMarkup = `
           <tr>
+            <td class="table_icon"><img class="category_icon" src=${icon}></td>
             <td class="table_name">${name}</td>
             <td class="table_category">${category}</td>
-            <td class="table_date">${date}</td>
-            <td class="table_amount">$.${amount}</td>
+            <td class="table_date">${formatted_date}</td>
+            <td class="table_amount">${formatted_amount}</td>
           </tr>
         `
         transactionsTable.innerHTML += tableMarkup;
 
+        if ( type == 'Income') {
+          sumOfIncome += amount;
+        }
+        if ( type == 'Expenditure') {
+          sumOfExpenditure += amount;
+          categories.add(category)
+        }
+
+        
     });
+    
+    totalIncome.innerHTML = new Intl.NumberFormat('en-US', options).format(sumOfIncome);
+    totalExpenditure.innerHTML = new Intl.NumberFormat('en-US', options).format(sumOfExpenditure);
+    console.log(categories);
   });
 
 })
 
+
+
+
 expenditureBtn.addEventListener('click', async () => {
 
-  const transactionAmount = document.getElementById('transaction_amount');
-  const transactionName = document.getElementById('transaction_name');
-  const transactionCategory = document.getElementById('transaction_category');
-  const transactionDate = document.getElementById('transaction_date');
+  const transactionAmount = document.getElementById('transaction_amount').value*1;
+  const transactionName = document.getElementById('transaction_name').value;
+  const transactionCategory = document.getElementById('transaction_category').value;
+  const transactionDate = firebase.firestore.Timestamp.fromDate(new Date(document.getElementById('transaction_date').value));
   const transactionType = expenditureBtn.value;
+  await saveTransaction(transactionAmount, transactionCategory, transactionDate, transactionName, transactionType );
+});
 
-  await saveTransaction(transactionAmount.value, transactionCategory.value, transactionDate.value,transactionName.value,  transactionType, );
+incomeBtn.addEventListener('click', async () => {
+  const transactionAmount = document.getElementById('transaction_amount').value*1;
+  const transactionName = document.getElementById('transaction_name').value;
+  const transactionCategory = document.getElementById('transaction_category').value;
+  const transactionDate = firebase.firestore.Timestamp.fromDate(new Date(document.getElementById('transaction_date').value));
+  const transactionType = incomeBtn.value;
+  await saveTransaction(transactionAmount, transactionCategory, transactionDate, transactionName, transactionType );
 });
