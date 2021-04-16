@@ -82,4 +82,11 @@ expenditureBtn.addEventListener('click', async () => {
   const transactionType = expenditureBtn.value;
 
   await saveTransaction(transactionAmount.value, transactionCategory.value, transactionDate.value,transactionName.value,  transactionType, );
+
+  transactionAmount.value = '';
+  transactionName.value = '';
+  transactionCategory.value = '';
+  transactionDate.value = '';
+
+
 });
