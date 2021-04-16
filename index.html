@@ -67,8 +67,8 @@
                     <input type="number" name="Amount" id="transaction_amount">
                 </div>
                 <div id="transaction_btn" class="addTransaction__btn">
-                    <button class="btn addTransaction__btn--expenditure" id="expenditure" value="Expenditure">Expenditure</button>
-                    <button class="btn addTransaction__btn--income" id="income" value="Income">Income</button>
+                    <button class="btn addTransaction__btn--expenditure" id="expenditure" value="expenditure">Expenditure</button>
+                    <button class="btn addTransaction__btn--income" id="income" value="income">Income</button>
                 </div>
             </div>
 
@@ -91,12 +91,16 @@
                 <span class="section_title">Monthly Transaction History</span>
                 <div class="section_table">
                     <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Date</th>
-                            <th>Amount</th>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th colspan="2">Name</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>

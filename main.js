@@ -17,7 +17,7 @@ const db = firebase.firestore();
 
 const expenditureBtn = document.querySelector(".addTransaction__btn--expenditure");
 const incomeBtn = document.querySelector(".addTransaction__btn--income");
-const transactionsTable = document.querySelector(".section_table table");
+const transactionsTable = document.querySelector(".section_table table tbody");
 const totalIncome = document.querySelector("#total_income");
 const totalExpenditure = document.querySelector("#total_expenditure");
 
@@ -40,6 +40,8 @@ const saveTransaction = (amount, category, date, name, type) => {
 
     });
 }
+// Delete transaction
+const deleteTransaction = id => db.collection('transactions').doc(id).delete();
 
 const onGetTransactions = (callback) => db.collection("transactions").orderBy("date", "desc").onSnapshot(callback);
 
@@ -51,18 +53,9 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
     let sumOfExpenditure = 0;
     let categories = new Set();
 
-    const tableHead = `
-      <tr>
-        <th colspan="2">Name</th>
-        <th>Category</th>
-        <th>Date</th>
-        <th>Amount</th>
-      </tr>`;
+    transactionsTable.innerHTML = '';
 
-    transactionsTable.innerHTML = tableHead;
-    
     transactions.forEach(doc => {
-        
         
         const name = doc.data().name;
         const category = doc.data().category;
@@ -71,6 +64,7 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
         const amount = doc.data().amount;
         const formatted_amount = new Intl.NumberFormat('en-US', options).format(doc.data().amount);
         const type = doc.data().type;
+        const transactionId = doc.id;
         let icon = "/assets/shopping_icon.svg";
         switch (category){
           case 'Transport':
@@ -99,15 +93,26 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
             <td class="table_name">${name}</td>
             <td class="table_category">${category}</td>
             <td class="table_date">${formatted_date}</td>
-            <td class="table_amount">${formatted_amount}</td>
+            <td class="table_amount table_amount--type-${type}" data-type="${type}">${formatted_amount}</td>
+            <td><span class="btn-delete" data-id="${transactionId}"></span></td>
           </tr>
         `
         transactionsTable.innerHTML += tableMarkup;
 
-        if ( type == 'Income') {
+        const btnsDelete = document.querySelectorAll('span.btn-delete');
+        btnsDelete.forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            if(confirm("Do you want to delete this transaction?")){
+              await deleteTransaction(e.target.dataset.id);
+            }
+          });
+        });
+
+
+        if ( type == 'income') {
           sumOfIncome += amount;
         }
-        if ( type == 'Expenditure') {
+        if ( type == 'expenditure') {
           sumOfExpenditure += amount;
           categories.add(category)
         }
