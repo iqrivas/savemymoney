@@ -1,6 +1,6 @@
 
 
-![SaveMyMoney Logo](assets/logo_saveMymoney.png =250x)
+![SaveMyMoney Logo](assets/logo_saveMymoney.png | width=250)
 
 
 # SaveMyMoney Web App
