@@ -23,7 +23,9 @@ const dateInput = document.getElementById('transaction_date');
 const defaultDate = new Date().toLocaleString("en-CA", { year: 'numeric', month: 'numeric', day: 'numeric' });
 dateInput.defaultValue = defaultDate;
 
-let categories = new Set();
+let categories = new Map();
+let sumOfIncome = 0;
+let sumOfExpenditure = 0;
 let options = { style: 'currency', currency: 'USD' };
 
 // Get all transactions
@@ -77,15 +79,50 @@ function getIcon (icon) {
   return iconPath;
 }
 
+function getCategories(transactions) {
+  let categoriesSection = document.querySelector("#categories");
+  categoriesSection.innerHTML =
+    '<span class="section_title">Category Statistics</span>';
+
+  let catSort = new Map([...categories.entries()].sort((a, b) => b[1] - a[1]));
+  let catNames = [...catSort.keys()];
+
+  catNames.forEach((cat) => {
+    let catPercent = parseInt(
+      ((categories.get(cat) || 0) / sumOfExpenditure) * 100
+    );
+    let catVisibility = catPercent <= 0 ? "hidden" : "";
+    transactions.forEach((doc) => {
+      if (doc.category == cat) {
+        catTotal += doc.amount;
+      }
+    });
+
+    const catIcon = getIcon(cat);
+    const categoryMarkup = `
+      <div class="category_stats ${catVisibility}">
+      <img class="category_icon" src=${catIcon} alt="${cat} Icon">
+      <div class="category_progress">
+        <progress value="${catPercent}" max="100"></progress>
+        <span class="category_name">${cat}</span>
+      </div>
+      <span class="category_percent">${catPercent}%</span>
+      </div>
+      `;
+
+    categoriesSection.innerHTML += categoryMarkup;
+  });
+}
+
 window.addEventListener('DOMContentLoaded', async (e) =>{
 
   onGetTransactions((transactions) => {
-    let sumOfIncome = 0;
-    let sumOfExpenditure = 0;
-    
+    sumOfIncome = 0;
+    sumOfExpenditure = 0;
+    categories.clear();
     
     transactionsTable.innerHTML = '';
-
+    
     transactions.forEach(doc => {
         
         const name = doc.data().name;
@@ -125,33 +162,16 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
         }
         if ( type == 'expenditure') {
           sumOfExpenditure += amount;
-          categories.add(category)
+          let categoryCurrentValue= categories.get(category) || 0;
+          categories.set(category, categoryCurrentValue + amount )
         }
 
         
         
     });
     
-    //Create Categories
-    let categoriesSection = document.querySelector('#categories');
-    categoriesSection.innerHTML = '<span class="section_title">Category Statistics</span>';
-    categories.forEach(cat => {
-      const catIcon = getIcon(cat);   
-      const categoryMarkup = `
-      <div class="category_stats">
-      <img class="category_icon" src=${catIcon} alt="${cat} Icon">
-      <div class="category_progress">
-        <progress value="52" max="100"></progress>
-        <span class="category_name">${cat}</span>
-      </div>
-      <span class="category_percent">--%</span>
-      </div>
-      `;
-
-      categoriesSection.innerHTML += categoryMarkup;
-
-    })
-
+    getCategories(transactions);
+    
     totalIncome.innerHTML = new Intl.NumberFormat('en-US', options).format(sumOfIncome);
     totalExpenditure.innerHTML = new Intl.NumberFormat('en-US', options).format(sumOfExpenditure);
     
@@ -159,6 +179,7 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
 
 })
 
+//Add a Transaction
 const inputAmount = document.getElementById('transaction_amount');
 const inputName = document.getElementById('transaction_name');
 const inputCategory = document.getElementById('transaction_category');
@@ -183,8 +204,10 @@ addBtn.forEach(item => {
     const amountFormatted = transactionAmount*1;
     const transactionType = ev.target.value;
 
-    if(transactionAmount == null || transactionAmount == '' && transactionName == null || transactionName == '' && transactionCategory == null || transactionCategory == '') {
+    if(transactionAmount == null || transactionAmount == '' || transactionName == null || transactionName == '' || transactionCategory == null || transactionCategory == '') {
       alert("One or more fields are empty! Please complete all required fields.");
+    } else if (transactionAmount <= 0) {
+        alert("Amount must be above zero.");      
     } else {
       await saveTransaction(amountFormatted, transactionCategory, dateFormatted, transactionName, transactionType );
   
