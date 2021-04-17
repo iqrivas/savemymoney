@@ -1,6 +1,6 @@
 
 
-![SaveMyMoney Logo](assets/logo_saveMymoney.png =250)
+![SaveMyMoney Logo](assets/logo_saveMymoney.png =250x)
 
 
 # SaveMyMoney Web App
