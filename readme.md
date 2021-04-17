@@ -19,7 +19,7 @@ Here you can find the app demo: https://savemymoney.vercel.app/
 
 ## Made with ❤️  By:
 
-[Dennis Rivas](https://github.com/iqrivas)
+[Dennis Rivas](https://github.com/iqrivas) | 
 [David Galeano](https://github.com/davidevOS) 
 
 ```
