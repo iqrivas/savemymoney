@@ -248,6 +248,10 @@ select {
   font-weight: 600;
 }
 
+.hidden {
+  display: none;
+}
+
 progress {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
