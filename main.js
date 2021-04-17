@@ -23,6 +23,7 @@ const dateInput = document.getElementById('transaction_date');
 const defaultDate = new Date().toLocaleString("en-CA", { year: 'numeric', month: 'numeric', day: 'numeric' });
 dateInput.defaultValue = defaultDate;
 
+let categories = new Set();
 let options = { style: 'currency', currency: 'USD' };
 
 // Get all transactions
@@ -45,13 +46,44 @@ const deleteTransaction = id => db.collection('transactions').doc(id).delete();
 const onGetTransactions = (callback) => db.collection("transactions").orderBy("date", "desc").onSnapshot(callback);
 
 // Painting transactions in DOM
+function getIcon (icon) {
+  let iconPath = "";
+  switch (icon){
+    case 'Transport':
+      iconPath =  "/assets/transport_icon.svg";
+      break;
+    case 'Shopping':
+      iconPath =  "/assets/shopping_icon.svg";
+      break;
+    case 'Travels':
+      iconPath =  "/assets/travels_icon.svg";
+      break;
+    case 'Electronics':
+      iconPath =  "/assets/electronics_icon.svg";
+      break;
+    case 'Utilities':
+      iconPath =  "/assets/home_icon.svg";
+      break;
+    case 'Other':
+      iconPath =  "/assets/other_icon.svg";
+      break;  
+    case 'Salary':
+    case 'Bonus':
+      iconPath =  "/assets/money_icon.svg";
+      break;
+    default:
+      iconPath = "/assets/other_icon.svg";
+  };
+  return iconPath;
+}
+
 window.addEventListener('DOMContentLoaded', async (e) =>{
 
   onGetTransactions((transactions) => {
     let sumOfIncome = 0;
     let sumOfExpenditure = 0;
-    let categories = new Set();
-
+    
+    
     transactionsTable.innerHTML = '';
 
     transactions.forEach(doc => {
@@ -64,30 +96,7 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
         const formatted_amount = new Intl.NumberFormat('en-US', options).format(doc.data().amount);
         const type = doc.data().type;
         const transactionId = doc.id;
-        let icon = "/assets/other_icon.svg";
-        switch (category){
-          case 'Transport':
-            icon =  "/assets/transport_icon.svg";
-            break;
-          case 'Travels':
-            icon =  "/assets/travels_icon.svg";
-            break;
-          case 'Electronics':
-            icon =  "/assets/electronics_icon.svg";
-            break;
-          case 'Utilities':
-            icon =  "/assets/home_icon.svg";
-            break;
-          case 'Other':
-            icon =  "/assets/other_icon.svg";
-            break;  
-          case 'Salary':
-          case 'Bonus':
-            icon =  "/assets/money_icon.svg";
-            break;
-          default:
-            icon = "/assets/other_icon.svg";
-        };
+        const icon = getIcon(category);
 
         const tableMarkup = `
           <tr>
@@ -120,11 +129,32 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
         }
 
         
+        
     });
     
+    //Create Categories
+    let categoriesSection = document.querySelector('#categories');
+    categoriesSection.innerHTML = '<span class="section_title">Category Statistics</span>';
+    categories.forEach(cat => {
+      const catIcon = getIcon(cat);   
+      const categoryMarkup = `
+      <div class="category_stats">
+      <img class="category_icon" src=${catIcon} alt="${cat} Icon">
+      <div class="category_progress">
+        <progress value="52" max="100"></progress>
+        <span class="category_name">${cat}</span>
+      </div>
+      <span class="category_percent">--%</span>
+      </div>
+      `;
+
+      categoriesSection.innerHTML += categoryMarkup;
+
+    })
+
     totalIncome.innerHTML = new Intl.NumberFormat('en-US', options).format(sumOfIncome);
     totalExpenditure.innerHTML = new Intl.NumberFormat('en-US', options).format(sumOfExpenditure);
-    console.log(categories);
+    
   });
 
 })
@@ -148,8 +178,8 @@ addBtn.forEach(item => {
     const transactionAmount = inputAmount.value;
     const transactionName = inputName.value;
     const transactionCategory = inputCategory.value;
-    const transactionDate = inputDate.value
-    const dateFormatted = firebase.firestore.Timestamp.fromDate(new Date(transactionDate));
+    const transactionDate = new Date(inputDate.value);
+    const dateFormatted = firebase.firestore.Timestamp.fromDate(transactionDate);
     const amountFormatted = transactionAmount*1;
     const transactionType = ev.target.value;
 
