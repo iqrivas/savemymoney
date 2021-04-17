@@ -1,15 +1,12 @@
 
+<p align="center">
+  <img width="250" src="assets/saveMymoney_logo.png">
+</p>
 
-![SaveMyMoney Logo](assets/saveMymoney_logo.png)
+# Web App
 
-  
-  
-
-# SaveMyMoney Web App
-
-  
-
-A web app to help users to track monthly transactions such as expenses and incomes. Created using HTML, CSS, Javascript Vanilla and Firebase.
+* SaveMyMoney is a web application created to help users to track monthly transactions such as expenses and incomes. 
+* This application was created using HTML, CSS, JavaScript (Vanilla) and Firebase.
 
   
 
@@ -24,11 +21,8 @@ Here you can find the app demo: https://savemymoney.vercel.app/
 ## Built with
 
 * HTML
-
 * CSS
-
 * JavaScript (Vanilla)
-
 * Firebase
 
 ## How does it work?
@@ -40,12 +34,7 @@ Here you can find the app demo: https://savemymoney.vercel.app/
 
 ## Made with ❤️ By:
 
-  
+[Denisse Rivas](https://github.com/iqrivas) | 
+[David Galeano](https://github.com/davidevOS) 
 
-[Denisse Rivas](https://github.com/iqrivas) |
 
-[David Galeano](https://github.com/davidevOS)
-
-  
-
-```
