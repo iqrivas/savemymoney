@@ -1,7 +1,7 @@
 
-
-![SaveMyMoney Logo](assets/saveMymoney_logo.png)
-
+<p align="center">
+  <img width="250" src="assets/saveMymoney_logo.png">
+</p>
 
 # Web App
 
