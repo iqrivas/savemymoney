@@ -152,6 +152,7 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
           btn.addEventListener('click', async (e) => {
             if(confirm("Do you want to delete this transaction?")){
               await deleteTransaction(e.target.dataset.id);
+              notification('delete');
             }
           });
         });
@@ -211,9 +212,44 @@ addBtn.forEach(item => {
     } else {
       await saveTransaction(amountFormatted, transactionCategory, dateFormatted, transactionName, transactionType );
   
-      alert('The Transaction was saved Successfully!');
+      notification('success');
       clearInputs();
     }
 
   })
 });
+
+function notification(type) {
+  let clear;
+  let msgDuration = 2000;
+  let msgSuccess = "The transaction was saved successfully!";
+  let msgDelete = "The transaction has been deleted successfully!";
+
+  let msg = document.getElementById("message");
+
+  hide();
+
+  switch (type) {
+      case "success":
+        msg.classList.add("msg-success", "active")
+        msg.innerHTML = (msgSuccess);
+        break;
+        case "delete":
+          msg.classList.add("msg-success", "active")
+          msg.innerHTML = (msgDelete);
+          break;
+  }
+
+  function timer() {
+    clearTimeout(clear);
+    clear = setTimeout(function () {
+      hide();
+    }, msgDuration);
+  }
+  function hide() {
+    msg.classList.remove("msg-success", "msg-danger", "msg-warning", "msg-info", "active");
+  }
+
+  msg.addEventListener('transitionend', timer);
+  
+}

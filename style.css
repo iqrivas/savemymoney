@@ -285,6 +285,41 @@ progress::-moz-progress-bar {
   border-radius: 100px;
 }
 
+.msg {
+  position: fixed;
+  top: 200px;
+  left: 50%;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.05);
+}
+
+.msg-success {
+  background-color: var(--green);
+}
+
+/*fade*/
+.animate {
+  opacity: 0;
+  transition: all 1s;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.animate.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.slide-in-down {
+  transform: translateY(-100%) translateX(-50%);
+}
+
 .grid {
   display: grid;
   grid-template-areas:
