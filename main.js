@@ -15,14 +15,13 @@ firebase.initializeApp(firebaseConfig);
 // Firestone DB Connection
 const db = firebase.firestore();
 
-const expenditureBtn = document.querySelector(".addTransaction__btn--expenditure");
-const incomeBtn = document.querySelector(".addTransaction__btn--income");
 const transactionsTable = document.querySelector(".section_table table tbody");
 const totalIncome = document.querySelector("#total_income");
 const totalExpenditure = document.querySelector("#total_expenditure");
 
 const dateInput = document.getElementById('transaction_date');
-dateInput.defaultValue = new Date().toLocaleString("en-CA", { year: 'numeric', month: 'numeric', day: 'numeric' });
+const defaultDate = new Date().toLocaleString("en-CA", { year: 'numeric', month: 'numeric', day: 'numeric' });
+dateInput.defaultValue = defaultDate;
 
 let options = { style: 'currency', currency: 'USD' };
 
@@ -65,7 +64,7 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
         const formatted_amount = new Intl.NumberFormat('en-US', options).format(doc.data().amount);
         const type = doc.data().type;
         const transactionId = doc.id;
-        let icon = "/assets/shopping_icon.svg";
+        let icon = "/assets/other_icon.svg";
         switch (category){
           case 'Transport':
             icon =  "/assets/transport_icon.svg";
@@ -79,12 +78,15 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
           case 'Utilities':
             icon =  "/assets/home_icon.svg";
             break;
+          case 'Other':
+            icon =  "/assets/other_icon.svg";
+            break;  
           case 'Salary':
           case 'Bonus':
             icon =  "/assets/money_icon.svg";
             break;
           default:
-            icon = "/assets/shopping_icon.svg";
+            icon = "/assets/other_icon.svg";
         };
 
         const tableMarkup = `
@@ -127,38 +129,38 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
 
 })
 
+const inputAmount = document.getElementById('transaction_amount');
+const inputName = document.getElementById('transaction_name');
+const inputCategory = document.getElementById('transaction_category');
+const inputDate = document.getElementById('transaction_date');
 
+function clearInputs () {
+  inputAmount.value = '';
+  inputName.value = '';
+  inputCategory.value = '';
+  dateInput.defaultValue = defaultDate;
+}
 
+const addBtn = document.querySelectorAll(".add__btn");
 
-expenditureBtn.addEventListener('click', async () => {
+addBtn.forEach(item => {
+  item.addEventListener('click', async (ev) => {
+    const transactionAmount = inputAmount.value;
+    const transactionName = inputName.value;
+    const transactionCategory = inputCategory.value;
+    const transactionDate = inputDate.value
+    const dateFormatted = firebase.firestore.Timestamp.fromDate(new Date(transactionDate));
+    const amountFormatted = transactionAmount*1;
+    const transactionType = ev.target.value;
 
-  const transactionAmount = document.getElementById('transaction_amount').value*1;
-  const transactionName = document.getElementById('transaction_name').value;
-  const transactionCategory = document.getElementById('transaction_category').value;
-  const transactionDate = firebase.firestore.Timestamp.fromDate(new Date(document.getElementById('transaction_date').value));
-  const transactionType = expenditureBtn.value;
+    if(transactionAmount == null || transactionAmount == '' && transactionName == null || transactionName == '' && transactionCategory == null || transactionCategory == '') {
+      alert("One or more fields are empty! Please complete all required fields.");
+    } else {
+      await saveTransaction(amountFormatted, transactionCategory, dateFormatted, transactionName, transactionType );
+  
+      alert('The Transaction was saved Successfully!');
+      clearInputs();
+    }
 
-  if(transactionAmount == null || transactionAmount == '' && transactionName == null || transactionName == '' && transactionCategory == null || transactionCategory == '') {
-    alert("One or more fields are empty! Please complete all required fields.");
-  } else {
-    await saveTransaction(transactionAmount, transactionCategory, transactionDate, transactionName, transactionType );
-
-    alert('The Transaction was saved Successfully!');
-  }
-});
-
-incomeBtn.addEventListener('click', async () => {
-  const transactionAmount = document.getElementById('transaction_amount').value*1;
-  const transactionName = document.getElementById('transaction_name').value;
-  const transactionCategory = document.getElementById('transaction_category').value;
-  const transactionDate = firebase.firestore.Timestamp.fromDate(new Date(document.getElementById('transaction_date').value));
-  const transactionType = incomeBtn.value;
-
-  if(transactionAmount == null || transactionAmount == '' && transactionName == null || transactionName == '' && transactionCategory == null || transactionCategory == '') {
-    alert("One or more fields are empty! Please complete all required fields.");
-  } else {
-    await saveTransaction(transactionAmount, transactionCategory, transactionDate, transactionName, transactionType );
-
-    alert('The Transaction was saved Successfully!');
-  }
+  })
 });
