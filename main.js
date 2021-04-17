@@ -142,6 +142,8 @@ expenditureBtn.addEventListener('click', async () => {
     alert("One or more fields are empty! Please complete all required fields.");
   } else {
     await saveTransaction(transactionAmount, transactionCategory, transactionDate, transactionName, transactionType );
+
+    alert('The Transaction was saved Successfully!');
   }
 });
 
@@ -156,5 +158,7 @@ incomeBtn.addEventListener('click', async () => {
     alert("One or more fields are empty! Please complete all required fields.");
   } else {
     await saveTransaction(transactionAmount, transactionCategory, transactionDate, transactionName, transactionType );
+
+    alert('The Transaction was saved Successfully!');
   }
 });
