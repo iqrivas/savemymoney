@@ -1,6 +1,6 @@
 
 
-![SaveMyMoney Logo](assets/logo_saveMymoney.png)
+![SaveMyMoney Logo](assets/saveMymoney_logo.png)
 
 
 # SaveMyMoney Web App
