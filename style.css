@@ -222,7 +222,8 @@ select {
   margin-top: 1rem;
 }
 
-.category_icon {
+.category_icon,
+.table_icon {
   background-color: var(--lighter-grey);
   padding: 1rem;
   border-radius: 3px;
@@ -424,5 +425,9 @@ progress::-moz-progress-bar {
   .addTransaction__btn {
     flex-direction: column;
     align-items: center;
+  }
+
+  .table_icon {
+    padding: 0rem;
   }
 }

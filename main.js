@@ -88,10 +88,10 @@ function getCategories(transactions) {
   let catNames = [...catSort.keys()];
 
   catNames.forEach((cat) => {
-    let catPercent = parseInt(
+    let catPercent = Math.round(
       ((categories.get(cat) || 0) / sumOfExpenditure) * 100
     );
-    let catVisibility = catPercent <= 0 ? "hidden" : "";
+
     transactions.forEach((doc) => {
       if (doc.category == cat) {
         catTotal += doc.amount;
@@ -100,7 +100,7 @@ function getCategories(transactions) {
 
     const catIcon = getIcon(cat);
     const categoryMarkup = `
-      <div class="category_stats ${catVisibility}">
+      <div class="category_stats ">
       <img class="category_icon" src=${catIcon} alt="${cat} Icon">
       <div class="category_progress">
         <progress value="${catPercent}" max="100"></progress>
@@ -137,7 +137,7 @@ window.addEventListener('DOMContentLoaded', async (e) =>{
 
         const tableMarkup = `
           <tr>
-            <td class="table_icon"><img class="category_icon" src=${icon}></td>
+            <td ><img class="table_icon" src=${icon}></td>
             <td class="table_name">${name}</td>
             <td class="table_category">${category}</td>
             <td class="table_date">${formatted_date}</td>
@@ -190,7 +190,7 @@ function clearInputs () {
   inputAmount.value = '';
   inputName.value = '';
   inputCategory.value = '';
-  dateInput.defaultValue = defaultDate;
+  inputDate.value = defaultDate;
 }
 
 const addBtn = document.querySelectorAll(".add__btn");
@@ -200,8 +200,8 @@ addBtn.forEach(item => {
     const transactionAmount = inputAmount.value;
     const transactionName = inputName.value;
     const transactionCategory = inputCategory.value;
-    const transactionDate = new Date(inputDate.value);
-    const dateFormatted = firebase.firestore.Timestamp.fromDate(transactionDate);
+    const transactionDate = new Date(inputDate.value).setDate(new Date(inputDate.value).getDate()+1);
+    const dateFormatted = firebase.firestore.Timestamp.fromMillis(transactionDate);
     const amountFormatted = transactionAmount*1;
     const transactionType = ev.target.value;
 
