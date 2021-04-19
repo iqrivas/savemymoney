@@ -195,6 +195,7 @@ select {
   border-style: none;
   height: 3.5rem;
   text-align: center;
+  width: 100%;
 }
 
 select {
@@ -370,6 +371,7 @@ progress::-moz-progress-bar {
 
 .grid_transaction {
   display: grid;
+  justify-content: center;
   grid-template-areas:
     "amount category "
     "date name"
@@ -417,7 +419,7 @@ progress::-moz-progress-bar {
 }
 
 /* Stack the layout on small devices/viewports. */
-@media all and (max-width: 650px) {
+@media all and (max-width: 600px) {
   .grid {
     grid-template-areas:
       "title"
@@ -439,8 +441,6 @@ progress::-moz-progress-bar {
       "trans_btn";
     grid-auto-rows: auto;
     grid-template-columns: 1fr;
-    grid-row-gap: 10px;
-    grid-column-gap: 10px;
   }
 
   .userInfo,
