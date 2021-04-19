@@ -54,6 +54,7 @@ footer span {
 
 footer span a {
   text-decoration: none;
+  color: var(--lighter-black);
 }
 
 footer span a:visited {
@@ -193,8 +194,14 @@ select {
   border-radius: 9px;
   border-style: none;
   height: 3.5rem;
-  text-align: left;
-  padding-left: 15px;
+  text-align: center;
+}
+
+select {
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
 }
 
 .addTransaction__btn {
@@ -305,7 +312,7 @@ progress::-webkit-progress-value {
 }
 
 progress::-moz-progress-bar {
-  background-color: var(--lighter-grey);
+  background-color: var(--blue);
   border-radius: 100px;
 }
 
@@ -371,7 +378,6 @@ progress::-moz-progress-bar {
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 10px;
   grid-column-gap: 10px;
-  padding: 20px;
 }
 
 #title {
@@ -435,7 +441,6 @@ progress::-moz-progress-bar {
     grid-template-columns: 1fr;
     grid-row-gap: 10px;
     grid-column-gap: 10px;
-    min-width: 340px;
   }
 
   .userInfo,
@@ -453,4 +458,5 @@ progress::-moz-progress-bar {
   .table_icon {
     padding: 0rem;
   }
+
 }
